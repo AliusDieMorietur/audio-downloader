@@ -31,7 +31,9 @@ class App():
   def getVideo(self):
     # Get value from input
     inputValue = self.ui.input.text()
-    regularExp = r'https?://(?:www\.)?yourextractor\.com/watch/(?P<id>[0-9]+)'
+
+    # Check if url is valid 
+    regularExp = '^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$'
     valid = re.match(regularExp, inputValue)
     if (valid):
       self.downloadVideo(inputValue)

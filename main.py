@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from PyQt5.QtWidgets import QApplication, QPushButton
 from PyQt5 import uic
 import sys
+import re
 import youtube_dl
 
 # Initialize app
@@ -12,7 +13,7 @@ class App():
     self.app = QApplication(sys.argv)
 
     # Get interface path
-    path = str(__file__).rsplit('/', 1)[0] + '/interface.ui'
+    path = sys.path[0] + '/interface.ui'
     self.ui = uic.loadUi(path)
     
     # Move window to the center
@@ -30,9 +31,11 @@ class App():
   def getVideo(self):
     # Get value from input
     inputValue = self.ui.input.text()
-    if (inputValue):
-      self.ui.input.setText('')
+    regularExp = r'https?://(?:www\.)?yourextractor\.com/watch/(?P<id>[0-9]+)'
+    valid = re.match(regularExp, inputValue)
+    if (valid):
       self.downloadVideo(inputValue)
+    self.ui.input.setText('')
 
   
   def downloadVideo(self, url):

@@ -11,7 +11,13 @@ class App():
   def __init__(self):
     self.app = QApplication(sys.argv)
     self.ui = uic.loadUi('/home/lia/Projects/audio-downloader/interface.ui')
-
+    
+    # Move window to the center
+    screenGeometry = QApplication.desktop().screenGeometry()
+    x = int((screenGeometry.width() - self.ui.width()) / 2)
+    y = int((screenGeometry.height() - self.ui.height()) / 2)
+    self.ui.move(x, y)
+    
     # Add button listener
     self.ui.downloadBtn.clicked.connect(self.getVideo)
 

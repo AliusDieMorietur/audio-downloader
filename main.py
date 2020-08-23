@@ -10,7 +10,10 @@ import youtube_dl
 class App():
   def __init__(self):
     self.app = QApplication(sys.argv)
-    self.ui = uic.loadUi('/home/lia/Projects/audio-downloader/interface.ui')
+
+    # Get interface path
+    path = str(__file__).rsplit('/', 1)[0] + '/interface.ui'
+    self.ui = uic.loadUi(path)
     
     # Move window to the center
     screenGeometry = QApplication.desktop().screenGeometry()

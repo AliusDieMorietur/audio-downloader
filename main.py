@@ -1,8 +1,9 @@
 #!/usr/local/bin/python
 
 from __future__ import unicode_literals
-from PyQt5.QtWidgets import QApplication, QPushButton
+from PyQt5.QtWidgets import QApplication, QPushButton, QInputDialog
 from PyQt5 import uic
+from os import path 
 import sys
 import re
 import youtube_dl
@@ -11,10 +12,12 @@ import youtube_dl
 class App():
   def __init__(self):
     self.app = QApplication(sys.argv)
-
+    if path.exists('path'):
+      self.path = open('path', 'r').read()
+    else: 
+      self.path = ''
     # Get interface path
-    path = sys.path[0] + '/interface.ui'
-    self.ui = uic.loadUi(path)
+    self.ui = uic.loadUi(sys.path[0] + '/interface.ui')
     
     # Move window to the center
     screenGeometry = QApplication.desktop().screenGeometry()
@@ -25,10 +28,23 @@ class App():
     # Add button listener
     self.ui.downloadBtn.clicked.connect(self.getVideo)
 
+    if self.path == '':  
+      filePath = self.showDialog()
+      self.path = filePath
+      file = open('path', 'w')
+      file.write(filePath)
+
     self.ui.show()
     sys.exit(self.app.exec())
 
+  def showDialog(self):
+    text, ok = QInputDialog.getText(self.ui, 'Input Dialog', 'Enter path to download folder')
+    if ok:
+      return str(text)
+    return None  
+
   def getVideo(self):
+
     # Get value from input
     inputValue = self.ui.input.text()
 
@@ -51,9 +67,12 @@ class App():
         self.ui.progress.setValue(value)
         # print(d['filename'], d['_percent_str'], d['_eta_str'])
 
+    print(self.path)
+
     # Video download options
     ydl_opts = {
         'format': 'bestaudio/best',
+        'outtmpl': self.path + '%(title)s.%(ext)s',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',

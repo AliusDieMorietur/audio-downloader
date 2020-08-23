@@ -11,8 +11,10 @@ class App():
   def __init__(self):
     self.app = QApplication(sys.argv)
     self.ui = uic.loadUi('/home/lia/Projects/audio-downloader/interface.ui')
+
     # Add button listener
     self.ui.downloadBtn.clicked.connect(self.getVideo)
+
     self.ui.show()
     sys.exit(self.app.exec())
 
@@ -20,7 +22,6 @@ class App():
     # Get value from input
     inputValue = self.ui.input.text()
     if (inputValue):
-      self.ui.downloaded.addItem(inputValue)
       self.ui.input.setText('')
       self.downloadVideo(inputValue)
 
@@ -47,7 +48,11 @@ class App():
         'progress_hooks': [progessHook],
     }
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+      # Add track name to list
+      meta = ydl.extract_info(url, download=False) 
+      self.ui.downloaded.addItem(meta['title'])
       # Start download
       ydl.download([url])
+
 
 app = App()

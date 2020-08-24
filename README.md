@@ -1,5 +1,5 @@
 # Audio Downloader
-Simple way to download audio from youtube. Based on pyQt5
+Simple way to download audio from youtube. Based on pyQt5 and youtube_dl
 # Requirements
 * Python ^3
 # Usage

@@ -1,7 +1,7 @@
-#!/usr/local/bin/python
+#! /usr/bin/env python3
 
 from __future__ import unicode_literals
-from PyQt5.QtWidgets import QApplication, QPushButton, QInputDialog
+from PyQt5.QtWidgets import QApplication, QPushButton, QInputDialog, QMainWindow
 from PyQt5 import uic
 from os import path 
 import sys
@@ -9,9 +9,9 @@ import re
 import youtube_dl
 
 # Initialize app
-class App():
+class Ui(QMainWindow):
   def __init__(self):
-    self.app = QApplication(sys.argv)
+    super(Ui, self).__init__()
     if path.exists('path'):
       self.path = open('path', 'r').read()
     else: 
@@ -35,7 +35,6 @@ class App():
       file.write(filePath)
 
     self.ui.show()
-    sys.exit(self.app.exec())
 
   def showDialog(self):
     text, ok = QInputDialog.getText(self.ui, 'Input Dialog', 'Enter path to download folder')
@@ -87,5 +86,6 @@ class App():
       # Start download
       ydl.download([url])
 
-
-app = App()
+app = QApplication(sys.argv)
+window = Ui()
+app.exec_()

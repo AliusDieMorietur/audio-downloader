@@ -17,6 +17,8 @@ class Ui(QMainWindow):
     else: 
       self.path = ''
     # Get interface path
+    print(self.path)
+    print(sys.path[0])
     self.ui = uic.loadUi(sys.path[0] + '/interface.ui')
     
     # Move window to the center

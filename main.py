@@ -12,8 +12,8 @@ import youtube_dl
 class Ui(QMainWindow):
   def __init__(self):
     super(Ui, self).__init__()
-    if path.exists('path'):
-      self.path = open('path', 'r').read()
+    if path.exists(sys.path[0] + '/path'):
+      self.path = open(sys.path[0] + '/path', 'r').read()
     else: 
       self.path = ''
     # Get interface path
